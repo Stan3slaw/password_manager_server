@@ -1,0 +1,39 @@
+version: '1.0'
+
+services:
+  app:
+    container_name: password-manager
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
+    command: pnpm start:dev
+    ports:
+      - 3001:3001
+    networks:
+      - sharednet
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    env_file:
+      - .env
+    environment:
+      MONGODB_USER_NAME:
+      MONGODB_USER_PASSWORD:
+      MONGODB_DATABASE_NAME:
+      MONGODB_URL:
+    depends_on:
+      - mongodb
+
+  mongodb:
+    container_name: password-manager-mongodb
+    image: mongo
+    networks:
+      - sharednet
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER_NAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_USER_PASSWORD}
+    ports:
+      - 27017:27017
+networks:
+  sharednet:
