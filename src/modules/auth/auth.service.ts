@@ -102,8 +102,7 @@ export class AuthService {
       throw new NotFoundException('User with specified email does not exists');
     }
 
-    const hashedPassword = await hash(password);
-    const isValidPassword = await verify(user.password, hashedPassword);
+    const isValidPassword = await verify(user.password, password);
 
     if (!isValidPassword) {
       throw new BadRequestException('Incorrect password');
