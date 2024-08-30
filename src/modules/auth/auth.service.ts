@@ -18,6 +18,7 @@ import { generateSalt } from '../../common/utils/generate-salt.util';
 import { VaultService } from '../vault/vault.service';
 import type { AuthResponseDto } from './dtos/auth-response.dto';
 import { COOKIE_DOMAIN } from '../../common/config/cookie.config';
+import type { UserDocument } from '../user/schemas/user.schema';
 
 @Injectable()
 export class AuthService {
@@ -44,7 +45,7 @@ export class AuthService {
     const vault = await this.vaultService.create({ userId, salt });
 
     const accessToken = await this.jwtService.signAsync({
-      userId,
+      id: userId,
       email,
     });
 
@@ -77,7 +78,7 @@ export class AuthService {
     const vault = await this.vaultService.findOneByUserId(userId);
 
     const accessToken = await this.jwtService.signAsync({
-      userId,
+      id: userId,
       email,
     });
 
@@ -95,7 +96,7 @@ export class AuthService {
     };
   }
 
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUser(email: string, password: string): Promise<UserDocument> {
     const user = await this.userService.findOneByEmail(email);
 
     if (!user) {
@@ -107,8 +108,8 @@ export class AuthService {
     if (!isValidPassword) {
       throw new BadRequestException('Incorrect password');
     }
-    const { password: _, ...userWithoutPassword } = user;
 
-    return userWithoutPassword;
+    // TODO: Omit password from user response
+    return user;
   }
 }

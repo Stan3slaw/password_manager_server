@@ -27,7 +27,7 @@ export class VaultRepository {
   ): Promise<VaultDocument> {
     const updatedVault = await this.vaultModel.findOneAndUpdate(
       { userId },
-      updateVaultDto,
+      { data: updateVaultDto.encryptedVault },
       { new: true },
     );
 

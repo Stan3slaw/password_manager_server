@@ -25,6 +25,6 @@ import { JwtGuard } from './guards/jwt.guard';
     VaultModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, JwtGuard],
+  providers: [AuthService, JwtStrategy, JwtGuard, ConfigService],
 })
 export class AuthModule {}

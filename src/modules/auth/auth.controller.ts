@@ -28,7 +28,7 @@ export class AuthController {
 
   @UseGuards(JwtGuard)
   @Get('check-auth')
-  async getCurrentUser(): Promise<void> {
-    console.log('check auth');
+  async checkAuth(): Promise<{ isAuth: true }> {
+    return { isAuth: true };
   }
 }

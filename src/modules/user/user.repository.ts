@@ -19,7 +19,7 @@ export class UserRepository {
     return savedUser;
   }
 
-  async findOne(userEmail: string): Promise<UserDocument> {
+  async findOneByEmail(userEmail: string): Promise<UserDocument> {
     const [user] = await this.userModel.find({
       email: userEmail,
     });

@@ -1,4 +1,4 @@
-import { Body, Controller, Patch, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Put, UseGuards } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
 
 import { User } from '../../common/decorators/user.decorator';
@@ -12,7 +12,7 @@ export class VaultController {
   constructor(private readonly vaultService: VaultService) {}
 
   @UseGuards(JwtGuard)
-  @Patch(':id')
+  @Put()
   async update(
     @User('id') currentUserId: ObjectId,
     @Body() updateVaultDto: UpdateVaultDto,
