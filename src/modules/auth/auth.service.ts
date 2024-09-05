@@ -96,6 +96,16 @@ export class AuthService {
     };
   }
 
+  async signOut(response: Response): Promise<void> {
+    response.clearCookie('access-token', {
+      domain: COOKIE_DOMAIN,
+      path: '/',
+      secure: false,
+      httpOnly: true,
+      sameSite: false,
+    });
+  }
+
   async validateUser(email: string, password: string): Promise<UserDocument> {
     const user = await this.userService.findOneByEmail(email);
 

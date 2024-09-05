@@ -26,6 +26,11 @@ export class AuthController {
     return this.authService.signIn(signInDto, response);
   }
 
+  @Post('sign-out')
+  async signOut(@Res({ passthrough: true }) response: Response): Promise<void> {
+    return this.authService.signOut(response);
+  }
+
   @UseGuards(JwtGuard)
   @Get('check-auth')
   async checkAuth(): Promise<{ isAuth: true }> {
