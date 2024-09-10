@@ -8,7 +8,7 @@ import {
 
 import { JwtService } from '@nestjs/jwt';
 
-import { hash, verify } from 'argon2';
+import { verify } from 'argon2';
 
 import type { Response } from 'express';
 
@@ -19,6 +19,7 @@ import { VaultService } from '../vault/vault.service';
 import type { AuthResponseDto } from './dtos/auth-response.dto';
 import { COOKIE_DOMAIN } from '../../common/config/cookie.config';
 import type { UserDocument } from '../user/schemas/user.schema';
+import type { GetCurrentUserResponseDto } from './dtos/get-current-user-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -121,5 +122,16 @@ export class AuthService {
 
     // TODO: Omit password from user response
     return user;
+  }
+
+  async getCurrentUser(userEmail: string): Promise<GetCurrentUserResponseDto> {
+    const user = await this.userService.findOneByEmail(userEmail);
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+    const { id, email } = user;
+
+    return { id, email };
   }
 }
