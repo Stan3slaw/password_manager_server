@@ -120,7 +120,6 @@ export class AuthService {
       throw new BadRequestException('Incorrect password');
     }
 
-    // TODO: Omit password from user response
     return user;
   }
 
